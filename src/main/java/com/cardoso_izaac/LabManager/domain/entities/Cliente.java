@@ -10,7 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 @Entity
 public class Cliente implements Serializable {
@@ -25,7 +27,7 @@ public class Cliente implements Serializable {
     private String nome;
 
     @Email
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private int cpf;

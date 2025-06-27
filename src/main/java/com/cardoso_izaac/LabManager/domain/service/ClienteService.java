@@ -1,13 +1,16 @@
 package com.cardoso_izaac.LabManager.domain.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.cardoso_izaac.LabManager.domain.entities.Cliente;
 import com.cardoso_izaac.LabManager.domain.repositories.ClienteRepositorio;
+import com.cardoso_izaac.LabManager.dto.ClienteDTO;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -15,6 +18,7 @@ import lombok.AllArgsConstructor;
 public class ClienteService {
     
     private final ClienteRepositorio repositorio;
+    private ModelMapper mapper;
 
     private boolean validaId(Long id) {
         boolean teste;
@@ -25,18 +29,27 @@ public class ClienteService {
         return teste = false;
     }
 
-    public List<Cliente> listarTodosClientes() {
-        return repositorio.findAll();
+    public List<ClienteDTO> listarTodosClientes() {
+        return repositorio.findAll().stream()
+                        .map(cliente -> mapper.map(cliente, ClienteDTO.class))
+                        .collect(Collectors.toList());                
     }
 
-    public Optional<Cliente> buscaClientePorId(Long id) {
+    public ClienteDTO buscaClientePorId(Long id) {
         if(validaId(id)) {
             throw new RuntimeException("Cliente não encontrado!");
         }
 
-        return repositorio.findById(id);
+        var cliente = repositorio.findById(id);
+        return mapper.map(cliente, ClienteDTO.class);
     }
 
+    @Transactional
+    public ClienteDTO inserir(Cliente cliente) {
+        return mapper.map(cliente, ClienteDTO.class);
+    }
+
+    @Transactional
     public void deletarClientePorId(Long id) {
         if(validaId(id)) {
             throw new RuntimeException("Cliente não encontrado!");
