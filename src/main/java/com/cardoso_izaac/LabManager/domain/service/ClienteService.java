@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.cardoso_izaac.LabManager.domain.entities.Cliente;
 import com.cardoso_izaac.LabManager.domain.repositories.ClienteRepositorio;
 import com.cardoso_izaac.LabManager.dto.ClienteDTO;
+import com.cardoso_izaac.LabManager.exceptions.*;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -20,27 +22,23 @@ public class ClienteService {
     private final ClienteRepositorio repositorio;
     private ModelMapper mapper;
 
-    private boolean validaId(Long id) {
-        boolean teste;
-        if(repositorio.existsById(id)) {
-            teste = true;
-        }
-
-        return teste = false;
-    }
-
     public List<ClienteDTO> listarTodosClientes() {
-        return repositorio.findAll().stream()
-                        .map(cliente -> mapper.map(cliente, ClienteDTO.class))
+        return repositorio.findAll(Sort.by(Sort.Direction.ASC))
+                        .stream()
+                        .map(cliente -> mapper.map(cliente, ClienteDTO.class))                        
                         .collect(Collectors.toList());                
     }
 
-    public ClienteDTO buscaClientePorId(Long id) {
-        if(validaId(id)) {
-            throw new RuntimeException("Cliente não encontrado!");
-        }
+    public ClienteDTO buscaClientePorId(Long id) {     
+        var cliente = repositorio.findById(id)
+                        .orElseThrow(() -> new NotFoundException("Cliente não encontrado!"));
+        
+        return mapper.map(cliente, ClienteDTO.class);
+    }
 
-        var cliente = repositorio.findById(id);
+    public ClienteDTO buscarClientePorNome(String nome) {
+        var cliente = repositorio.findByName(nome);
+
         return mapper.map(cliente, ClienteDTO.class);
     }
 
@@ -51,8 +49,8 @@ public class ClienteService {
 
     @Transactional
     public void deletarClientePorId(Long id) {
-        if(validaId(id)) {
-            throw new RuntimeException("Cliente não encontrado!");
+        if(!repositorio.existsById(id)) {
+            throw new NotFoundException("Cliente não encontrado!");
         }
         
         repositorio.deleteById(id);
