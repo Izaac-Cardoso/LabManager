@@ -43,6 +43,14 @@ public class ClienteService {
     }
 
     @Transactional
+    public void atualizaCliente(Cliente cliente) {
+        var clienteAtualizado = repositorio.findById(cliente.getCliente_id())
+                   .orElseThrow(() -> new NotFoundException("Cliente não encontrado!"));
+
+        repositorio.save(clienteAtualizado);
+    }
+
+    @Transactional
     public ClienteDTO inserir(Cliente cliente) {
         return mapper.map(cliente, ClienteDTO.class);
     }

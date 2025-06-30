@@ -37,6 +37,10 @@ public class Cliente implements Serializable {
 
     private int cep;
 
+    public void setId(Long id) {
+        this.cliente_id = id;
+    }
+
     @Column(name = "data_cadastro")
     private final LocalDateTime dataCadastro = LocalDateTime.now();
 

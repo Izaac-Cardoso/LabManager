@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 
 @AllArgsConstructor
@@ -37,10 +41,25 @@ public class ClienteController {
     }
     
     @GetMapping("/{cliente_id}")
-    public ResponseEntity<ClienteDTO> buscarCliente(@PathVariable Long id) {
+    public ResponseEntity<ClienteDTO> buscaPorId(@PathVariable Long id) {
         var cliente = service.buscaClientePorId(id);
 
         return ResponseEntity.ok(cliente);
+    }
+
+    @GetMapping("/nome-cliente")
+    public ResponseEntity<ClienteDTO> buscarCliente(@RequestParam String nome) {
+        var cliente = service.buscarClientePorNome(nome);
+
+        return ResponseEntity.ok(cliente);
+    }
+
+    @PutMapping("path/{id}")
+    public ResponseEntity<Void> atualizaCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+        cliente.setId(id);
+        service.atualizaCliente(cliente);
+        
+        return ResponseEntity.accepted().build();
     }
 
     @PostMapping
