@@ -10,4 +10,5 @@ import com.cardoso_izaac.LabManager.domain.entities.Cliente;
 @Repository
 public interface ClienteRepositorio extends JpaRepository<Cliente, Long>{
     Optional<Cliente> findByName(String name);
+    Optional<Cliente> findByEmail(String email);
 }

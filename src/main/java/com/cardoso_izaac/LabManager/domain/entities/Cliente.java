@@ -4,12 +4,18 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.zip.DataFormatException;
 
+import com.cardoso_izaac.LabManager.domain.entities.Usuario.AtualizarUsuario;
+import com.cardoso_izaac.LabManager.domain.entities.Usuario.CriarUsuario;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,11 +30,15 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cliente_id;
 
-    @Column(nullable = false)
+    @NotNull(groups = {CriarUsuario.class, AtualizarUsuario.class})
+    @NotEmpty(groups = {CriarUsuario.class, AtualizarUsuario.class})
+    @Size(groups = {CriarUsuario.class, AtualizarUsuario.class}, max = 60)
     private String nome;
 
+    @NotNull(groups = {CriarUsuario.class, AtualizarUsuario.class})
+    @NotEmpty(groups = {CriarUsuario.class, AtualizarUsuario.class})
+    @Size(groups = {CriarUsuario.class, AtualizarUsuario.class}, max = 60)
     @Email
-    @Column(nullable = false, unique = true)
     private String email;
 
     private String cpf;

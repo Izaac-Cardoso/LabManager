@@ -37,7 +37,27 @@ public class ClienteService {
     }
 
     public ClienteDTO buscarClientePorNome(String nome) {
-        var cliente = repositorio.findByName(nome);
+        var cliente = repositorio.findByName(nome)
+                        .orElseThrow(() -> new NotFoundException("Cliente " + nome + " não foi encontrado!"));
+
+        return mapper.map(cliente, ClienteDTO.class);
+    }
+
+    @Transactional
+    private boolean validarEmail(Cliente cliente) {
+        boolean emailEmUso = repositorio.findByEmail(cliente.getEmail())
+                    .filter(e -> !e.equals(cliente))
+                    .isPresent();
+
+        return emailEmUso; 
+    }
+
+    @Transactional
+    public ClienteDTO inserir(Cliente cliente) {
+        if(validarEmail(cliente)) {
+            throw new RuntimeException("Já existe um cliente cadastrado com esse email.");
+        }
+        repositorio.save(cliente);
 
         return mapper.map(cliente, ClienteDTO.class);
     }
@@ -48,11 +68,6 @@ public class ClienteService {
                    .orElseThrow(() -> new NotFoundException("Cliente não encontrado!"));
 
         repositorio.save(clienteAtualizado);
-    }
-
-    @Transactional
-    public ClienteDTO inserir(Cliente cliente) {
-        return mapper.map(cliente, ClienteDTO.class);
     }
 
     @Transactional
