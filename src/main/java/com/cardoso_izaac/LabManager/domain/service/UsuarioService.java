@@ -19,19 +19,17 @@ public class UsuarioService {
     private final ModelMapper mapper;
     
     public UsuarioDTO buscarUsuarioPorNome(String nome) {
-        Usuario usuario = repositorio.findByName(nome)
+        Usuario usuario = repositorio.findByNome(nome)
                     .orElseThrow(() -> new NotFoundException("Usuário " + nome + " não encontrado!"));
 
         return mapper.map(usuario, UsuarioDTO.class);
-
     }
     
     public void salvarUsuario(Usuario usuario) {
-        repositorio.findByNameAndEmail(usuario.getNome(), usuario.getEmail())
+        repositorio.findByNomeAndEmail(usuario.getNome(), usuario.getEmail())
         .orElseThrow(() -> new RuntimeException("Nome ou email já cadastrados!"));
 
         repositorio.save(usuario);
-
     }
 
 }

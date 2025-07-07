@@ -37,7 +37,7 @@ public class ClienteService {
     }
 
     public ClienteDTO buscarClientePorNome(String nome) {
-        var cliente = repositorio.findByName(nome)
+        var cliente = repositorio.findByNome(nome)
                         .orElseThrow(() -> new NotFoundException("Cliente " + nome + " não foi encontrado!"));
 
         return mapper.map(cliente, ClienteDTO.class);

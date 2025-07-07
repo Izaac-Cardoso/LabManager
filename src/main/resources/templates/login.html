@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f4f4f4;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <form action="/login" method="POST">
+    <h2>Login</h2>
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required />
+
+    <label for="senha">Senha:</label>
+    <input type="password" id="senha" name="senha" required />
+
+    <button type="submit">Entrar</button>
+
+    <div class="footer">
+      <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+    </div>
+  </form>
+</body>
+</html>
