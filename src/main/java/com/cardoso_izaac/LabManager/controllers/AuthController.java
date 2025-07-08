@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @AllArgsConstructor
 @Controller
 @RequestMapping("/usuarios/v1")
-public class UsuarioController {
+public class AuthController {
 
     private final UsuarioService service;
 
