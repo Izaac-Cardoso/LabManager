@@ -69,12 +69,42 @@ public class Usuario implements Serializable {
         return email;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
     public Perfil getPerfil() {
         return perfil;
     }
 
     public Estado getEstado() {
         return estado;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }   
 
+
+    
 }

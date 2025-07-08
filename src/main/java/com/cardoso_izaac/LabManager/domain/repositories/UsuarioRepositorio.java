@@ -10,5 +10,5 @@ import com.cardoso_izaac.LabManager.domain.entities.Usuario;
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
     Optional<Usuario> findByNome(String nome);
-    Optional<Usuario> findByNomeAndEmail(String nome, String email);
+    Optional<Usuario> findByEmail(String email);
 }
